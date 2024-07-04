@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color:#bfa689;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #chat-container {
+            position: absolute;
+            width: 1000px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+        }
+
+        #chat-header {
+            background-color:rgb(106, 136, 229);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #chat-body {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        #chat-messages {
+            padding: 10px;
+        }
+
+        #user-input {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+
+        #user-message {
+            flex-grow: 1;
+            padding: 8px;
+        }
+
+        #user-input button {
+            padding: 8px;
+            margin-left: 8px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        @media only screen and (max-width: 600px) {
+   
+}
+
+
+#cube-container {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    perspective: 1000px; 
+}
+
+#cube {
+    width: 50px;
+    height: 50px;
+    background-color: #3498db;
+    transform-style: preserve-3d;
+    animation: rotateCube 5s infinite linear; 
+}
+
+@keyframes rotateCube {
+    from {
+        transform: rotateX(33) rotateY(12) rotateZ(12);
+    }
+    to {
+        transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+    }
+}
+
+
+
+    </style>
+</head>
+
+<body>
+    <div id="cube-container">
+        <div id="cube"></div>
+    </div>
+    
+    
+    <div id="chat-container">
+        <div id="chat-header">
+            ChatBot
+        </div>
+        <div id="chat-body">
+            <div id="chat-messages"></div>
+            <div id="user-input">
+                <input type="text" id="user-message" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       var chatMessages = document.getElementById('chat-messages');
+
+function sendMessage() {
+    var userInput = document.getElementById('user-message').value;
+
+    var userMessage = document.createElement('div');
+    userMessage.className = 'bot-message';
+    userMessage.innerHTML = '<strong>Vous :</strong> ' + userInput;
+    chatMessages.appendChild(userMessage);
+
+   
+    document.getElementById('user-message').value = '';
+
+   
+    setTimeout(function () {
+        var botResponse = document.createElement('div');
+        botResponse.className = 'bot-message';
+        botResponse.innerHTML = '<strong>Bot :</strong> ';
+        chatMessages.appendChild(botResponse);
+
+        
+        animateMessage(' - ' + getBotResponse(userInput), botResponse);
+    }, 500); 
+}
+
+
+function getBotResponse(userInput) {
+    if (userInput.includes('hello') || userInput.includes('ahla') || userInput.includes('salut') || userInput.includes('aslema') || userInput.includes('hi') || userInput.includes('wink') || userInput.includes('slm')) {
+        return 'Salut, je suis le bot créé par Amine. Comment puis-je vous aider ?';
+    } else if (userInput.includes('informations')) {
+        return 'Je peux fournir des informations détaillées sur les maladies cardiovasculaires, les facteurs de risque, les symptômes et les traitements disponibles. Que souhaitez-vous savoir spécifiquement ?';
+    } else if (userInput.includes('suivi')) {
+        return 'Le suivi de votre santé  est essentiel. Enregistrez régulièrement des données telles que la pression artérielle, la fréquence cardiaque, le poids et les habitudes de vie. Assurez-vous de consulter périodiquement un professionnel de la santé pour évaluer vos progrès et ajuster votre plan de soins.';
+    } else if (userInput.includes('conseils')) {
+        return 'Je peux vous fournir des conseils personnalisés pour maintenir une santé cardiaque optimale. Incluez des aliments riches en fibres, tels que les fruits, les légumes et les céréales complètes, dans votre alimentation. De plus, pratiquez régulièrement des exercices cardiovasculaires comme la marche rapide, la natation ou le vélo pour renforcer votre cœur.';
+    } else if (userInput.includes('maladies cardiaques')) {
+        return 'Les maladies cardiaques, telles que les cardiopathies coronariennes et les insuffisances cardiaques, peuvent être prévenues par des habitudes de vie saines. Évitez le tabagisme, maintenez un poids santé, faites de lexercice régulièrement et suivez un régime équilibré. En cas de doute ou de symptômes, consultez un professionnel de la santé.';
+    } else if (userInput.includes('numeros durgence')) {
+        return 'En cas d\'urgence cardiovasculaire, composez immédiatement le numéro d\'urgence approprié dans votre région. Aux États-Unis, par exemple, le 911 est le numéro d\'urgence standard.';
+    } else if (userInput.includes('numero urgence local')) {
+        return 'États-Unis: 911 France: 112 Royaume-Uni: 999Canada: 911 Allemagne: 112 Australie: 000 Tunisie: 197 (services médicaux) / 190 (police)';
+    } else {
+        return 'Je ne suis pas sûr de comprendre. Pouvez-vous reformuler votre question ou spécifier un service particulier ?';
+    }
+}
+
+
+
+function animateMessage(message, element) {
+    var index = 0;
+    var timer = setInterval(function () {
+        element.innerHTML += message[index];
+        index++;
+        if (index === message.length) {
+            clearInterval(timer);
+        }
+    }, 13); 
+}
+</script>
+</body>
+
+</html>
+
+
+

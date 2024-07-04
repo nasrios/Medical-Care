@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservation de Rendez-vous</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+
+  <style>
+    body {
+      background-color:#bfa689 ;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    form {
+      width: 50%;
+      max-width: 400px;
+      margin: 50px auto;
+      background-color: #c4a786;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      box-sizing: border-box;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    input[type="text"],
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      text-align: left;
+    }
+
+    .custom-alert {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      z-index: 1000;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+   
+  </style>
+</head>
+
+
+<body>
+
+  <div class="box">
+    <span class="borderline"></span>
+    <form action="reservation.php" method="post" onsubmit="submitForm(); return false;">
+      <h2>Réserver un rendez-vous</h2>
+      <div class="inputBox">
+        <input type="text" id="nom" name="nom" required="required">
+        <span>Nom</span>
+        <i></i>
+      </div>
+      <div class="inputBox">
+        <input type="text" id="prenom" name="prenom" required="required">
+        <span>Prénom</span>
+        <i></i>
+      </div>
+      <div class="inputBox">
+        <input type="email" id="email" name="email" required="required">
+        <span>Email</span>
+        <i></i>
+      </div>
+      <div class="inputBox">
+        <input type="date" id="date" name="date" required="required">
+        <span>Date du rendez-vous</span>
+        <i></i>
+      </div>
+      <div class="inputBox">
+        <input type="file" id="dossierMedical" name="dossierMedical" accept=".pdf, .doc, .docx">
+        <span>Dépôt de dossier médical</span>
+        <i></i>
+      </div>
+      <input type="submit" value="Réserver">
+      <div id="reservation-message"></div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('reservationForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      submitForm();
+    });
+
+    function submitForm() {
+      var nom = document.getElementById("nom").value;
+      var prenom = document.getElementById("prenom").value;
+      var email = document.getElementById("email").value;
+      var date = document.getElementById("date").value;
+      var dossierMedical = document.getElementById("dossierMedical").value;
+
+     
+      emailjs.init("4znBhlR-EO4AhX1du");
+
+      
+      var serviceID = "service_qtz17ew";
+      var templateID = "template_323hjij";
+
+      var templateParams = {
+        to_email: "nasriamine255@gmail.com", 
+        subject: "Nouvelle réservation de rendez-vous",
+        nom: nom,
+        prenom: prenom,
+        email: email,
+        date: date,
+        dossierMedical: dossierMedical
+      };
+
+    
+      emailjs.send(serviceID, templateID, templateParams)
+        .then(function (response) {
+          console.log("Email sent:", response);
+          
+          submitToPHP();
+        }, function (error) {
+          console.log("Email failed to send:", error);
+        });
+    }
+</script>
+
+</body>
+
+</html>
+
+</html>
